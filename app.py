@@ -26,16 +26,16 @@ def train():
     param1 = request.form['param1']
     param2 = request.form['param2']
     param3 = request.form['param3']
-    # Adicione mais parâmetros conforme necessário
+    
 
-    # Carregue sua base de dados e realize o pré-processamento
-    # Substitua os dados abaixo pelos seus próprios
+    # Carrega a base de dados e realiza o pré-processamento
+    
     X, y = load_data()
 
-    # Divida os dados em conjuntos de treinamento e teste
+    # Divide os dados em conjuntos de treinamento e teste
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Escolha e configure o classificador
+    # Escolha dos classificadores
     if classifier_name == 'KNN':
         classifier = KNeighborsClassifier(n_neighbors=int(param1), leaf_size=int(param2), n_jobs=int(param3))
     elif classifier_name == 'MLP':
@@ -45,19 +45,19 @@ def train():
     elif classifier_name == 'RF':
         classifier = RandomForestClassifier(n_estimators=int(param1), max_depth=int(param2), random_state=int(param3))
 
-    # Treine o classificador
+    # Treino do classificador
     classifier.fit(X_train, y_train)
 
-    # Faça previsões no conjunto de teste
+    # Previsões no conjunto de teste
     y_pred = classifier.predict(X_test)
 
-    # Calcule as métricas
+    # Calcula as métricas
     accuracy = metrics.accuracy_score(y_test, y_pred)
     precision = metrics.precision_score(y_test, y_pred, average='macro')
     recall = metrics.recall_score(y_test, y_pred, average='macro')
     f1_score = metrics.f1_score(y_test, y_pred, average='macro')
 
-    # Crie e salve a matriz de confusão como uma imagem
+    # Criar e salvar a matriz de confusão como uma imagem
     confusion_matrix = metrics.confusion_matrix(y_test, y_pred)
     plt.imshow(confusion_matrix, interpolation='nearest', cmap=plt.cm.Blues)
     plt.title('Matrix de confusão')
@@ -67,7 +67,7 @@ def train():
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
 
-    # Salve a imagem como bytes
+    # Salvar a imagem como bytes
     img_buffer = BytesIO()
     plt.savefig(img_buffer, format='png')
     img_buffer.seek(0)
